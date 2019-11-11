@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Drawing Area</title>
+<!-- You can add your style here rather than in an external style sheet. -->
+<style>
+	canvas {
+	    border:5px solid #d3d3d3;
+	    background-color: white;
+	    display: block;
+	}
+</style>
+</head>
+<body> 
+    <!-- DO NOT MODIFY THIS HTML -->
+    <canvas id = "myCanvas" width = "350" height = "500"  ></canvas>
+    <input type = "color" id = "picker"/>
+
+    <script type="text/javascript">
+        var canvas = document.querySelector("#myCanvas")
+        canvas.height = window.innerHeight * 0.8;
+        canvas.width = window.innerWidth * 0.8;
+        var context = canvas.getContext("2d");
+
+        var draw_status = true;
+
+        var color = "red";
+        var input_color = document.querySelector("#picker");
+
+
+
+        function draw(posX, posY) {
+            if(draw_status == true) {
+                console.log("drawing");
+                context.fillStyle = color;
+                context.beginPath();
+                context.arc(posX, posY, 10, 0 , 2 * Math.PI);
+                context.fill();
+            }
+        }
+
+        myCanvas.addEventListener("mousemove", function(e) {
+            draw(e.x, e.y);
+        });
+
+        window.addEventListener("keydown", function(e) {
+            console.log("key pressed");
+
+            //clear canvas
+            if(e.code == "Space") {
+                console.log("space pressed");
+                context.clearRect(0, 0, canvas.width, 
+                    canvas.height);
+            }
+
+            // change to blue
+            else if(e.code ==  "KeyB") {
+                color = "blue";
+            }
+
+            //change to red
+            else if(e.code == "KeyR") {
+                color = "red";
+            }
+
+            //change to green
+            else if(e.code == "KeyG") {
+                color = "green";
+            }
+
+            //change to yellow
+            else if(e.code == "KeyY") {
+                color = "yellow"
+            }
+
+            //pen lifted
+            else if(e.keyCode == 38) {
+                draw_status = false;
+
+            }
+
+            //pen lowered
+            else if(e.keyCode == 40) {
+                draw_status = true;
+
+            }
+
+        });
+
+        window.addEventListener("change", function(e) {
+            context.fillStyle = input_color.value;
+        });
+
+    </script>
+</body>
+</html>
+
